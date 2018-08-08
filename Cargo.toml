@@ -1,0 +1,22 @@
+[package]
+name = "reverse-proxy"
+version = "0.1.0"
+authors = ["Douman <douman@gmx.se>"]
+
+[dependencies]
+actix = "0.7"
+futures = "0.1"
+http = "0.1"
+
+cute-log = "1"
+num_cpus = "1"
+
+[dependencies.actix-web]
+version = "0.7"
+default-features = false
+features = ["flate2-c", "brotli", "rust-tls"]
+
+[dependencies.log]
+version = "0"
+default-features = false
+features = ["max_level_info", "release_max_level_info"]
