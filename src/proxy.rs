@@ -15,8 +15,10 @@ pub fn forward(req: HttpRequest) -> impl Future<Item=actix_web::HttpResponse, Er
     let mut forward_req = client::ClientRequest::build_from(&req);
     forward_req.uri(forward_uri.as_str());
     forward_req.set_header(http::header::HOST, &FORWARD_URL[8..]);
+    let forward_body = req.payload().from_err();
+    let forward_req = forward_req.body(actix_web::Body::Streaming(Box::new(forward_body)));
 
-    forward_req.finish().expect("To create valid forward request")
+    forward_req.expect("To create valid forward request")
                .send()
                .map_err(|error| {
                    error!("Error: {}", error);
